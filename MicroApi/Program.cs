@@ -15,7 +15,6 @@ namespace MicroApi
         {
             IHost host = Host
                 .CreateDefaultBuilder(args)
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

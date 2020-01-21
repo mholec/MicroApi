@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MicroApi.Models;
 using MicroApi.Services;
 using Microsoft.AspNetCore.Http;
+using WebApiContrib.Core.Results;
 
 namespace MicroApi.Handlers
 {
@@ -19,17 +20,15 @@ namespace MicroApi.Handlers
         {
             WeatherForecast weatherForecast = new WeatherForecast();
             weatherForecast.Date = DateTime.Now;
-            
-            await Ok(weatherForecast);
+
+            await HttpContext.Ok(weatherForecast);
         }
-        
-        
 
         public async Task GetForecastById()
         {
             int id = GetRouteValue<int>("id");
 
-            await Ok(forecastService.GetById(id));
+            await HttpContext.Ok(forecastService.GetById(id));
         }
     }
 }

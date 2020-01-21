@@ -23,23 +23,23 @@ namespace MicroApi.Handlers
         protected HttpContext HttpContext => httpContextAccessor.HttpContext;
         protected ModelStateDictionary ModelState { get; private set; }
 
-        protected async Task Ok(object obj) => await WriteResponse(StatusCodes.Status200OK, obj);
+        //protected async Task Ok(object obj) => await WriteResponse(StatusCodes.Status200OK, obj);
         
-        protected async Task BadRequest(string message)
-        {
-            await WriteResponse(StatusCodes.Status400BadRequest,
-                new ProblemDetails()
-                {
-                    Title = message
-                }
-            );
-        }
-
-        protected async Task BadRequest(ModelStateDictionary modelState)
-        {
-            await WriteResponse(StatusCodes.Status400BadRequest,
-                new ValidationProblemDetails(modelState));
-        }
+//        protected async Task BadRequest(string message)
+//        {
+//            await WriteResponse(StatusCodes.Status400BadRequest,
+//                new ProblemDetails()
+//                {
+//                    Title = message
+//                }
+//            );
+//        }
+//
+//        protected async Task BadRequest(ModelStateDictionary modelState)
+//        {
+//            await WriteResponse(StatusCodes.Status400BadRequest,
+//                new ValidationProblemDetails(modelState));
+//        }
         
         protected async Task InternalServerError(string message)
         {

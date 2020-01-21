@@ -25,19 +25,17 @@ namespace MicroApi
         {
             services.AddHttpContextAccessor();
             services.AddAuthorization();
+            services.AddControllers(); // kvůli contrib
+
+            services.AddTransient<Handlers.Handlers>();
+            services.AddTransient<ForecastHandler>();
+            services.AddTransient<UserHandler>();
+            services.AddTransient<DownloadHandler>();
+            services.AddTransient<ExceptionHandler>();
+            services.AddTransient<DownloadService>();
+            services.AddTransient<IForecastService, ForecastService>();
         }
         
-        public void ConfigureContainer(ContainerBuilder builder)
-        {
-            builder.RegisterType<Handlers.Handlers>().InstancePerLifetimeScope();
-            builder.RegisterType<ForecastHandler>().InstancePerLifetimeScope();
-            builder.RegisterType<UserHandler>().InstancePerLifetimeScope();
-            builder.RegisterType<DownloadHandler>().InstancePerLifetimeScope();
-            builder.RegisterType<ExceptionHandler>().InstancePerLifetimeScope();
-            builder.RegisterType<DownloadService>().InstancePerLifetimeScope();
-            builder.RegisterType<ForecastService>().As<IForecastService>().InstancePerLifetimeScope();
-        }
-
         public void Configure(IApplicationBuilder app, Handlers.Handlers handlers)
         {
             if (env.IsDevelopment())
