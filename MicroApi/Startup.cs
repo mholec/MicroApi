@@ -4,29 +4,30 @@ using MicroApi.Middlewares;
 using MicroApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
 namespace MicroApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IWebHostEnvironment env)
+        private readonly IConfiguration configuration;
+        private readonly IWebHostEnvironment environment;
+        
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             this.configuration = configuration;
-            this.env = env;
+            this.environment = environment;
         }
-
-        private readonly IConfiguration configuration;
-        private readonly IWebHostEnvironment env;
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            services.AddAuthorization();
-            services.AddControllers(); // kvůli contrib
-
+            
             services.AddTransient<Handlers.Handlers>();
             services.AddTransient<ForecastHandler>();
             services.AddTransient<UserHandler>();
@@ -38,16 +39,9 @@ namespace MicroApi
         
         public void Configure(IApplicationBuilder app, Handlers.Handlers handlers)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseHttpsRedirection();
             app.UseMiddleware<ExceptionMiddleware>();
-            
+            app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("", context => handlers.Forecast.GetForecast());

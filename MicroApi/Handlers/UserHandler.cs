@@ -1,13 +1,12 @@
 using System.Threading.Tasks;
 using MicroApi.Models;
 using Microsoft.AspNetCore.Http;
-using WebApiContrib.Core.Results;
 
 namespace MicroApi.Handlers
 {
     public class UserHandler : HandlerBase
     {
-        public UserHandler(IHttpContextAccessor httpContextAccessor) : base((httpContextAccessor))
+        public UserHandler(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
         }
 
@@ -19,7 +18,7 @@ namespace MicroApi.Handlers
                 HttpContext.User.Identity.IsAuthenticated
             };
 
-            await HttpContext.Ok(info);
+            await Ok(info);
         }
 
         public async Task CreateUser()
@@ -28,11 +27,11 @@ namespace MicroApi.Handlers
 
             if (!ModelState.IsValid)
             {
-                await HttpContext.BadRequest(ModelState);
+                await BadRequest(ModelState);
                 return;
             }
 
-            await HttpContext.Ok(user);
+            await Ok(user);
         }
     }
 }

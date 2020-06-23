@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using MicroApi.Services;
 using Microsoft.AspNetCore.Http;
-using WebApiContrib.Core.Results;
 
 namespace MicroApi.Handlers
 {
@@ -19,7 +18,7 @@ namespace MicroApi.Handlers
             string url = HttpContext.Request.Query["url"];
             string content = await downloadService.LoadFromUrl(url);
 
-            await HttpContext.Ok(new {content});
+            await Ok(new {content});
         }
     }
 }
